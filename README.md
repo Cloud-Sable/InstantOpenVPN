@@ -25,8 +25,8 @@ This project is a Go application that automates the setup of an OpenVPN server o
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-repository/openvpn-aws-go.git
-    cd openvpn-aws-go
+    git clone https://github.com/your-repository/InstantOpenVPN.git
+    cd InstantOpenVPN
     ```
 
 2. Build the application:
@@ -40,7 +40,7 @@ This project is a Go application that automates the setup of an OpenVPN server o
 1. Run the application:
 
     ```bash
-    ./openvpn-aws-go
+    ./InstantOpenVPN
     ```
 
 2. Follow the on-screen prompts to enter AWS credentials (if not set in environment variables), select AWS region, instance type, and username.
