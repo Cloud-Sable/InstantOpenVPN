@@ -32,7 +32,7 @@ This project is a Go application that automates the setup of an OpenVPN server o
 2. Build the application:
 
     ```bash
-    go build .
+    go build cmd/openvpnaws/instantovpn.go
     ```
 
 ## Usage
@@ -40,7 +40,7 @@ This project is a Go application that automates the setup of an OpenVPN server o
 1. Run the application:
 
     ```bash
-    ./InstantOpenVPN
+    ./instantovpn
     ```
 
 2. Follow the on-screen prompts to enter AWS credentials (if not set in environment variables), select AWS region, instance type, and username.
