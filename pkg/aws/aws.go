@@ -34,6 +34,44 @@ func InitAWSSession(accessKey, secretKey, region string) *session.Session {
 	return sess
 }
 
+// CreateSecurityGroup creates a new security group that allows incoming traffic from the user's IP.
+func CreateSecurityGroup(svc *ec2.EC2, groupName, description, userIP string) (*ec2.CreateSecurityGroupOutput, error) {
+	input := &ec2.CreateSecurityGroupInput{
+		Description: aws.String(description),
+		GroupName:   aws.String(groupName),
+	}
+
+	result, err := svc.CreateSecurityGroup(input)
+	if err != nil {
+		return nil, err
+	}
+
+	// Add a rule to allow incoming traffic from the user's IP.
+	ruleInput := &ec2.AuthorizeSecurityGroupIngressInput{
+		GroupId: result.GroupId,
+		IpPermissions: []*ec2.IpPermission{
+			{
+				FromPort:   aws.Int64(0),
+				ToPort:     aws.Int64(65535),
+				IpProtocol: aws.String("tcp"),
+				IpRanges: []*ec2.IpRange{
+					{
+						CidrIp:      aws.String(userIP + "/32"),
+						Description: aws.String("User IP"),
+					},
+				},
+			},
+		},
+	}
+
+	_, err = svc.AuthorizeSecurityGroupIngress(ruleInput)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
 func CreateSecurityGroupAndRule(sess *session.Session, groupName, description, ip string) (string, error) {
 	svc := ec2.New(sess)
 
