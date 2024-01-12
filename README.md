@@ -1,19 +1,17 @@
-# AWS OpenVPN Setup in Go
+# OpenVPN AWS Setup
 
-## This is a work in progress and is currently incomplete.  Use at your own risk!
+This project is a Go application that automates the setup of an OpenVPN server on an AWS EC2 instance.
 
-## Project Overview
+## Description
 
-This project is a Go application that automates the setup of an OpenVPN server on AWS EC2. It handles AWS credentials, launches an EC2 instance, sets up OpenVPN, and generates client configurations.
+The application performs the following steps:
 
-## Features
-
-- Checks for AWS credentials in environment variables or prompts the user for them.
-- Reads and writes user preferences, including AWS region, instance type, and username, to a configuration file (`userprefs.cfg`).
-- Launches an EC2 instance with Amazon Linux 2 and sets up OpenVPN using user data scripts.
-- Generates and saves an SSH key pair for secure access to the EC2 instance.
-- (Optional) Additional OpenVPN configuration and management tasks.
-
+1. Gets the user's public IP.
+2. Writes user preferences to a configuration file.
+3. Creates an SSH key pair.
+4. Saves the private key to a file.
+5. Creates a security group.
+6. Launches an EC2 instance with OpenVPN setup.
 ## Prerequisites
 
 - Go 1.16 or later
@@ -32,7 +30,7 @@ This project is a Go application that automates the setup of an OpenVPN server o
 2. Build the application:
 
     ```bash
-    go build cmd/openvpnaws/instantovpn.go
+    go build -o InstantOpenVPN cmd/openvpnaws/main.go
     ```
 
 ## Usage
@@ -40,24 +38,25 @@ This project is a Go application that automates the setup of an OpenVPN server o
 1. Run the application:
 
     ```bash
-    ./instantovpn
+    ./InstantOpenVPN
     ```
 
 2. Follow the on-screen prompts to enter AWS credentials (if not set in environment variables), select AWS region, instance type, and username.
 
 3. The application will create an EC2 instance with OpenVPN installed and configured. SSH key pair will be saved in the working directory.
 
-4. Client configuration files and additional setup details can be managed as per project extension.
+4. Import-ready client configuration files will be downloaded to the current working directory.
 
 ## Configuration File (`userprefs.cfg`)
 
 The `userprefs.cfg` file stores user preferences. It's structured as key-value pairs:
-
+```
 instance_type=t3.micro
 region=us-west-2
 username=user
-
-
+ip=1.2.3.4  
+```
+(ip is the user's public IP to be added to the instance allowlist)
 ## Contributing
 
 Contributions to this project are welcome! Please fork the repository and submit a pull request with your enhancements.
